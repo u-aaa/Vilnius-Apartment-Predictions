@@ -1,0 +1,97 @@
+# Vilnius Apartment Prediction App
+## Descriptionn
+This project was carried out to help users estimate the prices for apartments in Vilnius, Lithuania.
+Looking for a new apartment can be daunting and this app aims to help user estimate how much they should be budgeting for their dream home.
+The project is divided into two parts.
+* The Aroudas web-scraper
+* The Apartment prediction app
+
+## The Aroudas web-scraper
+This web_scraper is designed to collect the following information for apartments listed on the [Aroudas website](https://en.aruodas.lt/).
+* City
+* Sub-district
+* Description
+* Link
+* Building number
+* Flat number
+* Area
+* Price per month
+* Build year
+* Building type
+* Heating system
+* Energy class
+* Nearest kindergarten
+* Nearest educational institution
+* Nearest stop
+* Nearest public transport stop
+
+### Usage
+To use the scaper, pip install the package.
+
+
+## The Apartment prediction app
+The apartment prediction can be found here - [Vilnius Apartment Prediction API](https://b-house-predic.herokuapp.com/).
+To predict apartment prices using the app, send a post request to the `/predict` endpoint [here]( https://b-house-predic.herokuapp.com/predict).
+The `/predict` endpoint takes only POST requests. The see the results from the last 10 predictions, use the `/predictions` endpoint.
+
+## Usage
+Post request should be made with the following features - ['division', 'no_of_rooms', 'area', 'floor', 'no_of_floors',
+'build_year', 'building_type', 'nearest_kindergarten', 'nearest_educational_institution', 'nearest_shop', 'public_transport_stop']
+
+```python
+import json
+
+url = "https://b-house-predic.herokuapp.com/predict"
+data = data = [{
+    "division": "Šnipiškės",
+    "area":  71.78,
+    "no_of_rooms":  2,
+    "build_year":  1940,
+    "floor":  1,
+    "nearest_kindergarten": 120,
+    "nearest_educational_institution": 310.0,
+    "nearest_shop": 170.0,
+    "public_transport_stop": 80.0,
+    "building_type": "Brick",
+    "no_of_floors": 3}]
+
+post_data = json.dumps(data)
+resp = requests.post(url, data=post_data)
+print(resp.status_code, resp.content)
+```
+For multiple listings, data can be passed as shown.
+```python
+import json
+
+url = "https://b-house-predic.herokuapp.com/predict"
+data = data1 = [{
+    "division": "Lazdynai",
+    "area":  48,
+    "no_of_rooms":  2,
+    "build_year":  1971,
+    "floor":  5,
+    "nearest_kindergarten": 190,
+    "nearest_educational_institution": 160.0,
+    "nearest_shop": 480.0,
+    "public_transport_stop": 310.0,
+    "building_type": "Brick",
+    "no_of_floors": 5},
+    {"division": "Naujininkai",
+    "area": 41,
+    "no_of_rooms": 2,
+    "build_year": 1960,
+    "floor": 3,
+    "nearest_kindergarten": 120,
+    "nearest_educational_institution": 160.0,
+    "nearest_shop": 270.0,
+    "public_transport_stop": 120.0,
+    "building_type": "Brick",
+    "no_of_floors":4
+     }]
+
+post_data = json.dumps(data)
+resp = requests.post(url, data=post_data)
+print(resp.status_code, resp.content)
+```
+## License
+The MIT License - Copyright (c) 2021 - Blessing Ehizojie-Philips
