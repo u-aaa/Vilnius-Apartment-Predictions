@@ -105,8 +105,6 @@ class AroudasScraper:
                             feature = div.text
                             attr = feature.split("\n~ ")
                             page_data[attr[0]] = attr[1]
-                # else:
-                #     page_data = None
                 all_data.append(page_data)
             print(f'Page {page_num} of {max_num} completed.')
         self.results = pd.DataFrame(all_data, columns=['city', 'division', 'description', 'link', 'House No.', 'Flat No.',
@@ -126,6 +124,23 @@ class AroudasScraper:
         df.to_csv(f'aroudas_{self.room_min}_{self.room_max}.csv', index=False)
         print(f'aroudas_{self.room_min}_{self.room_max}.csv file saved to folder')
         return
+
+    def scrape_to_csv(self, num_houses=1, room_min=1, room_max=None):
+        '''
+        used to scrape and save the data to csv
+        :param num_houses:
+        :param room_min:
+        :param room_max:
+        :return: none
+        '''
+        try:
+            df = self.scrape(num_houses, room_min, room_max)
+            return self.to_csv(df)
+        except Exception as ex:
+            print('Unable to scrape due to error')
+            raise ex
+
+
 
 
 if __name__ == "__main__":
