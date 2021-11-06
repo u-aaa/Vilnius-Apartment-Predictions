@@ -1,12 +1,12 @@
 # Vilnius Apartment Prediction App
-## Descriptionn
+## Description
 This project was carried out to help users estimate the prices for apartments in Vilnius, Lithuania.
 Looking for a new apartment can be daunting and this app aims to help user estimate how much they should be budgeting for their dream home.
 The project is divided into two parts.
 * The Aroudas web-scraper
 * The Apartment prediction app
 
-## The Aroudas web-scraper
+## The Aroudas Web-scraper
 This web_scraper is designed to collect the following information for apartments listed on the [Aroudas website](https://en.aruodas.lt/).
 * City
 * Sub-district
@@ -25,11 +25,31 @@ This web_scraper is designed to collect the following information for apartments
 * Nearest stop
 * Nearest public transport stop
 
+The scraper has 3 methods:
+* scrape - Loops through webpages and scrapes data off the [aroudas.lt](https://en.aruodas.lt/) website.
+* to_csv - Used to save the dataframe to csv
+* scrape_to_csv - Used to scrape and save the data to csv
+
 ### Usage
 To use the scaper, pip install the package.
+```python
+pip install AroudasScraper
+
+one_four_rooms = Aroudas()
+
+# to scrape and data
+df = one_four_rooms.scrape(num_houses=1000, room_min=1, room_max=4)
+
+# to save scraped data to csv
+one_four_rooms.to_csv(df)
+
+# to scrape and save data to csv
+one_four_rooms.scrape_to_csv(num_houses=1000, room_min=1, room_max=4)
+
+```
 
 
-## The Apartment prediction app
+## The Apartment Prediction App
 The apartment prediction can be found here - [Vilnius Apartment Prediction API](https://b-house-predic.herokuapp.com/).
 To predict apartment prices using the app, send a post request to the `/predict` endpoint [here]( https://b-house-predic.herokuapp.com/predict).
 The `/predict` endpoint takes only POST requests. The see the results from the last 10 predictions, use the `/predictions` endpoint.
