@@ -54,7 +54,7 @@ The apartment prediction can be found here - [Vilnius Apartment Prediction API](
 To predict apartment prices using the app, send a post request to the `/predict` endpoint [here]( https://b-house-predic.herokuapp.com/predict).
 The `/predict` endpoint takes only POST requests. The see the results from the last 10 predictions, use the `/predictions` endpoint.
 
-## Usage
+### Usage
 Post request should be made with the following features - ['division', 'no_of_rooms', 'area', 'floor', 'no_of_floors',
 'build_year', 'building_type', 'nearest_kindergarten', 'nearest_educational_institution', 'nearest_shop', 'public_transport_stop']
 
