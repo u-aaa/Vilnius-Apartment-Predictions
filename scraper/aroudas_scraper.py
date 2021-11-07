@@ -139,10 +139,3 @@ class AroudasScraper:
         except Exception as ex:
             print('Unable to scrape due to error')
             raise ex
-
-
-
-
-if __name__ == "__main__":
-    a = Aroudas()
-    print(a.aroudas(num_houses=1000, room_min=1, room_max=4))
