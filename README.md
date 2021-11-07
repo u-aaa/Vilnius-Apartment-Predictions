@@ -35,7 +35,7 @@ To use the scaper, pip install the package.
 ```python
 pip install vilnius-aruodas-scraper
 
-import aruodas_scraper
+from aruodas_scraper import AruodasScraper
 
 one_four_rooms = AruodasScraper()
 
