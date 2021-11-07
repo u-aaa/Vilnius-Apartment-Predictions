@@ -35,7 +35,9 @@ To use the scaper, pip install the package.
 ```python
 pip install vilnius-aroudas-scraper
 
-one_four_rooms = Aroudas()
+import aroudas_scraper
+
+one_four_rooms = AroudasScraper()
 
 # to scrape and data
 df = one_four_rooms.scrape(num_houses=1000, room_min=1, room_max=4)
@@ -50,9 +52,9 @@ one_four_rooms.scrape_to_csv(num_houses=1000, room_min=1, room_max=4)
 
 
 ## The Apartment Prediction App
-The apartment prediction can be found here - [Vilnius Apartment Prediction API](https://b-house-predic.herokuapp.com/).
-To predict apartment prices using the app, send a post request to the `/predict` endpoint [here]( https://b-house-predic.herokuapp.com/predict).
-The `/predict` endpoint takes only POST requests. The see the results from the last 10 predictions, use the `/predictions` endpoint.
+The apartment prediction can be found here - [Vilnius Apartment Prediction API](https://vilnius-apartment-price.herokuapp.com/).
+To predict apartment prices using the app, send a post request to the `/predict` endpoint [here]( https://vilnius-apartment-price.herokuapp.com/predict).
+The `/predict` endpoint takes only POST requests. The see the results from the last 10 predictions, use the `/predictions` endpoint [here]( https://vilnius-apartment-price.herokuapp.com/predictions).
 
 ### Usage
 Post request should be made with the following features - ['division', 'no_of_rooms', 'area', 'floor', 'no_of_floors',
