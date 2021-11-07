@@ -37,16 +37,16 @@ pip install vilnius-aruodas-scraper
 
 from aruodas_scraper import AruodasScraper
 
-one_four_rooms = AruodasScraper()
+data = AruodasScraper()
 
 # to scrape and data
-df = one_four_rooms.scrape(num_houses=1000, room_min=1, room_max=4)
+df = data.scrape(num_houses=100, room_min=1, room_max=4)
 
 # to save scraped data to csv
-one_four_rooms.to_csv(df)
+data.to_csv(df)
 
 # to scrape and save data to csv
-one_four_rooms.scrape_to_csv(num_houses=1000, room_min=1, room_max=4)
+data.scrape_to_csv(num_houses=100, room_min=1, room_max=4)
 
 ```
 
