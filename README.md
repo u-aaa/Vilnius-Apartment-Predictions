@@ -3,11 +3,11 @@
 This project was carried out to help users estimate the prices for apartments in Vilnius, Lithuania.
 Looking for a new apartment can be daunting and this app aims to help user estimate how much they should be budgeting for their dream home.
 The project is divided into two parts.
-* The Aroudas web-scraper
+* The Aruodas web-scraper
 * The Apartment prediction app
 
-## The Aroudas Web-scraper
-This web_scraper is designed to collect the following information for apartments listed on the [Aroudas website](https://en.aruodas.lt/).
+## The Aruodas Web-scraper
+This web_scraper is designed to collect the following information for apartments listed on the [Aruodas website](https://en.aruodas.lt/).
 * City
 * Sub-district
 * Description
@@ -26,18 +26,18 @@ This web_scraper is designed to collect the following information for apartments
 * Nearest public transport stop
 
 The scraper has 3 methods:
-* scrape - Loops through webpages and scrapes data off the [aroudas.lt](https://en.aruodas.lt/) website.
+* scrape - Loops through webpages and scrapes data off the [aruodas.lt](https://en.aruodas.lt/) website.
 * to_csv - Used to save the dataframe to csv
 * scrape_to_csv - Used to scrape and save the data to csv
 
 ### Usage
 To use the scaper, pip install the package.
 ```python
-pip install vilnius-aroudas-scraper
+pip install vilnius-aruodas-scraper
 
-import aroudas_scraper
+import aruodas_scraper
 
-one_four_rooms = AroudasScraper()
+one_four_rooms = AruodasScraper()
 
 # to scrape and data
 df = one_four_rooms.scrape(num_houses=1000, room_min=1, room_max=4)
