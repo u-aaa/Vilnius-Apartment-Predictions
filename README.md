@@ -33,7 +33,7 @@ The scraper has 3 methods:
 ### Usage
 To use the scaper, pip install the package.
 ```python
-pip install AroudasScraper
+pip install vilnius-aroudas-scraper
 
 one_four_rooms = Aroudas()
 
