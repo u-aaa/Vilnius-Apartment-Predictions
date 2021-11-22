@@ -64,7 +64,7 @@ Post request should be made with the following features - ['division', 'no_of_ro
 import json
 
 url = "https://b-house-predic.herokuapp.com/predict"
-data = data = [{
+data = [{
     "division": "Šnipiškės",
     "area":  71.78,
     "no_of_rooms":  2,
@@ -86,7 +86,7 @@ For multiple listings, data can be passed as shown.
 import json
 
 url = "https://b-house-predic.herokuapp.com/predict"
-data = data1 = [{
+data = [{
     "division": "Lazdynai",
     "area":  48,
     "no_of_rooms":  2,
