@@ -1,1 +1,1 @@
-# from aroudas_scraper import AroudasScraper
+from .aruodas_scraper import AruodasScraper

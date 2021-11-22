@@ -1,4 +1,5 @@
 import pickle
+from typing import Union
 import json
 import numpy as np
 import pandas as pd
@@ -10,24 +11,25 @@ app.config.from_object('config.Config')
 
 db = SQLAlchemy(app)
 
-with open('linear_regression.pkl', 'rb') as f:
+with open('models/linear_regression.pkl', 'rb') as f:
     model = pickle.load(f)
 
+features = {'division', 'no_of_rooms', 'area', 'floor', 'no_of_floors',
+                                  'build_year', 'building_type', 'nearest_kindergarten',
+                                  'nearest_educational_institution', 'nearest_shop',
+                                  'public_transport_stop'}
 
-def process_input(posted_data: json) -> (pd.DataFrame, None):
+
+def process_input(posted_data: json) -> Union[pd.DataFrame, None]:
     '''
     processes the input data and makes it suitable for prediction
     :param posted_data: data sent in the post request
     :return: df
     '''
     data = json.loads(posted_data)
-    df = pd.DataFrame(data)
-    if set(col for col in df) == {'division', 'no_of_rooms', 'area', 'floor', 'no_of_floors',
-                                  'build_year', 'building_type', 'nearest_kindergarten',
-                                  'nearest_educational_institution', 'nearest_shop',
-                                  'public_transport_stop'}:
-        return df
-    return None
+    for i in data:
+        assert features.issubset(set(i.keys()))
+    return pd.DataFrame(data, columns=list(features))
 
 
 @app.route('/')
@@ -40,25 +42,24 @@ def index() -> str:
 
 
 @app.route('/predict', methods=['POST'])
-def predict() -> (str, int):
+def predict() -> Union[str, int]:
     '''
     returns the predicted house price depending on the data passed in the post request
     :return: json
     '''
+    posted_data = request.data
     try:
-        posted_data = request.data
         predict_params = process_input(posted_data)
-        if predict_params is not None:
-            prediction = model.predict(predict_params)
-            predict_params['price_per_month'] = np.round(prediction, decimals=0)
-            predict_params.to_sql('predictions', con=db.engine, if_exists='append', index=False)
-            result = predict_params.to_dict('index')
-            response = []
-            for x in result:
-                response.append(result[x])
-            return json.dumps(response)
-        else:
-            return json.dumps({'Please post data with these headers': ['division', 'no_of_rooms', 'area', 'floor',
+        prediction = model.predict(predict_params)
+        predict_params['price_per_month'] = np.round(prediction, decimals=0)
+        predict_params.to_sql('predictions', con=db.engine, if_exists='append', index=False)
+        result = predict_params.to_dict('index')
+        response = []
+        for x in result:
+            response.append(result[x])
+        return json.dumps(response)
+    except (AssertionError, json.decoder.JSONDecodeError):
+        return json.dumps({'Please post data with these headers': ['division', 'no_of_rooms', 'area', 'floor',
                                                                        'no_of_floors',
                                                                        'build_year', 'building_type',
                                                                        'nearest_kindergarten',
