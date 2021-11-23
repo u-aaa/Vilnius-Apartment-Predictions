@@ -25,10 +25,13 @@ This web_scraper is designed to collect the following information for apartments
 * Nearest stop
 * Nearest public transport stop
 
-The scraper has 3 methods:
-* scrape - Loops through webpages and scrapes data off the [aruodas.lt](https://en.aruodas.lt/) website.
-* to_csv - Used to save the dataframe to csv
-* scrape_to_csv - Used to scrape and save the data to csv
+The scraper methods: Loops through webpages and scrapes data off the [aruodas.lt](https://en.aruodas.lt/) website.
+The method has 4 parameters:
+* no_room: this is used if only one type of apartment. FOr example, to search for only 2-room apartments
+* room_min: this parameter is used to specify the minimum number of rooms to be included in the search results.
+* room_max: this parameter is used to specify the maximum number of rooms to be included in the search results.
+* num_houses: this parameter is used to indicate the number of apartments to be scraped.
+
 
 ### Usage
 To use the scaper, pip install the package.
@@ -39,14 +42,14 @@ from aruodas_scraper import AruodasScraper
 
 data = AruodasScraper()
 
-# to scrape and data
+# to scrape data for 100 apartments with 1 - 4 rooms
 df = data.scrape(num_houses=100, room_min=1, room_max=4)
 
-# to save scraped data to csv
-data.to_csv(df)
+# to scrape data for 20 apartments with a minimum of 3 rooms
+df = data.scrape(num_houses=20, room_min=3)
 
-# to scrape and save data to csv
-data.scrape_to_csv(num_houses=100, room_min=1, room_max=4)
+# to scrape data for 20 apartments with a maximum of 3 rooms
+df = data.scrape(num_houses=20, room_max=3)
 
 ```
 
@@ -63,7 +66,7 @@ Post request should be made with the following features - ['division', 'no_of_ro
 ```python
 import json
 
-url = "https://b-house-predic.herokuapp.com/predict"
+url = "https://vilnius-apartment-price.herokuapp.com/predict"
 data = [{
     "division": "Šnipiškės",
     "area":  71.78,
@@ -85,7 +88,7 @@ For multiple listings, data can be passed as shown.
 ```python
 import json
 
-url = "https://b-house-predic.herokuapp.com/predict"
+url = "https://vilnius-apartment-price.herokuapp.com/predict"
 data = [{
     "division": "Lazdynai",
     "area":  48,
