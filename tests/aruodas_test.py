@@ -19,29 +19,29 @@ with open(apartment_path, 'r', encoding='utf-8') as apartment_file:
 def test_search_url_default():
     """tests the url used to laod apartments when room_min, room_max is None"""
     a = AruodasScraper()
-    assert a.search_url() == "https://en.aruodas.lt/butu-nuoma/vilniuje/puslapis/1/"
+    assert a._search_url() == "https://en.aruodas.lt/butu-nuoma/vilniuje/puslapis/1/"
 
 
 def test_search_url_no_room():
     a = AruodasScraper()
-    url = a.search_url(no_room=3)
+    url = a._search_url(no_room=3)
     assert url == "https://en.aruodas.lt/butu-nuoma/vilniuje/puslapis/1/?FRoomNumMin=3&FRoomNumMax=3"
 
 
 def test_search_url_room_min():
     a = AruodasScraper()
-    url = a.search_url(room_min=2)
+    url = a._search_url(room_min=2)
     assert url == "https://en.aruodas.lt/butu-nuoma/vilniuje/puslapis/1/?FRoomNumMin=2&FRoomNumMax=50"
 
 
 def test_search_url_room_max():
     a = AruodasScraper()
-    url = a.search_url(room_max=5)
+    url = a._search_url(room_max=5)
     assert url == "https://en.aruodas.lt/butu-nuoma/vilniuje/puslapis/1/?FRoomNumMin=1&FRoomNumMax=5"
 
 
 def test_get_links():
-    links = AruodasScraper.get_links(aruodas_site)
+    links = AruodasScraper._get_links(aruodas_site)
     assert links == ['https://en.aruodas.lt/butai-vilniuje-pasilaiciuose-laisves-pr-4-27818898/',
                      'https://en.aruodas.lt/butu-nuoma-vilniuje-snipiskese-kalvariju-g-jaukus-ir-pilnai-irengtas-butas-du-atskiri-4-1109887/',
                      'https://en.aruodas.lt/butu-nuoma-vilniuje-naujamiestyje-savanoriu-pr-isnuomojamas-2-kambariu-butas-su-vilniaus-4-1093623/',
@@ -71,7 +71,7 @@ def test_get_links():
 
 
 def test_load_apartment():
-    apartment_details = AruodasScraper.load_apartment(apartment_site)
+    apartment_details = AruodasScraper._load_apartment(apartment_site)
     assert apartment_details == {'city': 'Vilnius', 'division': 'Šnipiškės',
                                 'description': 'Vilnius, Šnipiškės, Konstitucijos pr., 2 rooms flat for rent',
                                 'link': 'https://example.org/', 'House No.': '15', 'Area': '64 m²',
