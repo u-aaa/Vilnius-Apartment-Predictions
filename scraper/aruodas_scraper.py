@@ -121,7 +121,9 @@ class AruodasScraper:
                         if page_data is not None:
                             self.results.append(page_data)
                 print(f'Scraped {self.page_number} page(s)')
-            self.page_number += 1
+                self.page_number += 1
+            else:
+                break
         df = pd.DataFrame(self.results, columns=['city', 'division', 'description', 'link', 'House No.', 'Flat No.',
                                                  'Area', 'Price per month', 'Number of rooms ', 'Floor',
                                                  'No. of floors', 'Build year', 'Building type', 'Heating system',
