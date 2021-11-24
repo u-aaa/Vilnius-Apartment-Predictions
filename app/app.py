@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 from flask import Flask, request, render_template
 from flask_sqlalchemy import SQLAlchemy
+import logging
 
 app = Flask(__name__)
 app.config.from_object('config.Config')
@@ -14,11 +15,8 @@ db = SQLAlchemy(app)
 with open('models/linear_regression.pkl', 'rb') as f:
     model = pickle.load(f)
 
-features = {'division', 'no_of_rooms', 'area', 'floor', 'no_of_floors',
-                                  'build_year', 'building_type', 'nearest_kindergarten',
-                                  'nearest_educational_institution', 'nearest_shop',
-                                  'public_transport_stop'}
-
+features = ['division', 'no_of_rooms', 'area', 'floor', 'no_of_floors', 'build_year', 'building_type', 'nearest_kindergarten',
+            'nearest_educational_institution', 'nearest_shop', 'public_transport_stop']
 
 def process_input(posted_data: json) -> Union[pd.DataFrame, None]:
     '''
@@ -28,8 +26,23 @@ def process_input(posted_data: json) -> Union[pd.DataFrame, None]:
     '''
     data = json.loads(posted_data)
     for i in data:
-        assert features.issubset(set(i.keys()))
-    return pd.DataFrame(data, columns=list(features))
+        assert set(features).issubset(set(i.keys()))
+    return pd.DataFrame(data, columns=features)
+
+def predict_price(df: pd.DataFrame):
+    """
+    predicts the house price and pushes to database
+    :param df:
+    :return:
+    """
+    prediction = model.predict(df)
+    df['price_per_month'] = np.round(prediction, decimals=0)
+    try:
+        df.to_sql('predictions', con=db.engine, if_exists='append', index=False)
+        return df.to_dict('records')
+    except Exception as err:
+        logging.exception(f'An error occured', err)
+        return df.to_dict('records')
 
 
 @app.route('/')
@@ -50,23 +63,13 @@ def predict() -> Union[str, int]:
     posted_data = request.data
     try:
         predict_params = process_input(posted_data)
-        prediction = model.predict(predict_params)
-        predict_params['price_per_month'] = np.round(prediction, decimals=0)
-        predict_params.to_sql('predictions', con=db.engine, if_exists='append', index=False)
-        result = predict_params.to_dict('index')
-        response = []
-        for x in result:
-            response.append(result[x])
+        response = predict_price(predict_params)
         return json.dumps(response)
-    except (AssertionError, json.decoder.JSONDecodeError):
-        return json.dumps({'Please post data with these headers': ['division', 'no_of_rooms', 'area', 'floor',
-                                                                       'no_of_floors',
-                                                                       'build_year', 'building_type',
-                                                                       'nearest_kindergarten',
-                                                                       'nearest_educational_institution',
-                                                                       'nearest_shop',
-                                                                       'public_transport_stop']}), 400
+    except (AssertionError, json.decoder.JSONDecodeError) as err:
+        logging.exception(err)
+        return json.dumps({'Please post data with these headers': features}), 400
     except Exception as ex:
+        logging.exception(ex)
         return json.dumps({'Unable to predict': ex}), 500
 
 
