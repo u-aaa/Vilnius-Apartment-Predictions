@@ -27,7 +27,7 @@ This web_scraper is designed to collect the following information for apartments
 
 The scraper methods: Loops through webpages and scrapes data off the [aruodas.lt](https://en.aruodas.lt/) website.
 The method has 4 parameters:
-* no_room: this is used if only one type of apartment. FOr example, to search for only 2-room apartments
+* no_room: this is used if only one type of apartment. For example, to search for only 2-room apartments
 * room_min: this parameter is used to specify the minimum number of rooms to be included in the search results.
 * room_max: this parameter is used to specify the maximum number of rooms to be included in the search results.
 * num_houses: this parameter is used to indicate the number of apartments to be scraped.
