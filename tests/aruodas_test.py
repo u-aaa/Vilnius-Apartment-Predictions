@@ -78,9 +78,3 @@ def test_load_apartment():
                                 'Price per month': '1 050 €', 'Number of rooms ': '2', 'Floor': '5',
                                 'No. of floors': '29', 'Build year': '2019', 'Building type': 'Monolithic',
                                 'Heating system': 'Central thermostat', 'Equipment': 'Fully equipped'}
-
-def test_scrape():
-    """tests the aroudas scraper function"""
-    a = AruodasScraper()
-    scrape = a.scrape(num_houses=26, room_min=1)
-    assert scrape.shape == (26, 19)
